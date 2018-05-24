@@ -1,3 +1,3 @@
 package domain.requests
 
-case class LoginRequest(username: String, password: String)
+final case class LoginRequest(username: String, password: String)

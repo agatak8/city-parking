@@ -3,11 +3,11 @@ package database
 import domain._
 
 trait Database {
-  def getDriver(id: Int): Driver
+  def getDriver(id: Int): Option[Driver]
 
-  def getMeter(driverID: Int): Meter
+  def getMeter(driverID: Int): Option[Meter]
 
-  def putMeter(meter: Meter)
+  def putMeter(meter: Meter): Unit
 
-  def getUser(username: String): User
+  def getUser(username: String): Option[User]
 }

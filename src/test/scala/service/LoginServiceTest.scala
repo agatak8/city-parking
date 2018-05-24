@@ -13,7 +13,7 @@ class LoginServiceTest extends FlatSpec with MockFactory with Matchers {
     val fakeDb = stub[Database]
     val service = new LoginService()(database = fakeDb)
 
-    fakeDb.getUser _ when "user" throws new NoSuchElementException("Not found")
+    fakeDb.getUser _ when "user" returns None
 
     service.authenticate("user", "user") shouldBe -1
   }
@@ -22,7 +22,7 @@ class LoginServiceTest extends FlatSpec with MockFactory with Matchers {
     val fakeDb = stub[Database]
     val service = new LoginService()(database = fakeDb)
 
-    fakeDb.getUser _ when "user" returns User("user", "123", 123)
+    fakeDb.getUser _ when "user" returns Some(User("user", "123", 123))
 
     service.authenticate("user", "user") shouldBe -1
   }
@@ -31,7 +31,7 @@ class LoginServiceTest extends FlatSpec with MockFactory with Matchers {
     val fakeDb = stub[Database]
     val service = new LoginService()(database = fakeDb)
 
-    fakeDb.getUser _ when "user" returns User("user", "123", 123)
+    fakeDb.getUser _ when "user" returns Some(User("user", "123", 123))
 
     service.authenticate("user", "123") should not be -1
   }
@@ -40,7 +40,7 @@ class LoginServiceTest extends FlatSpec with MockFactory with Matchers {
     val fakeDb = stub[Database]
     val service = new LoginService()(database = fakeDb)
 
-    fakeDb.getUser _ when "user" returns User("user", "123", 444)
+    fakeDb.getUser _ when "user" returns Some(User("user", "123", 444))
 
     service.authenticate("user", "123") shouldBe 444
   }

@@ -12,7 +12,6 @@ trait CorsSupport {
 
   // Your exception handler
   val exceptionHandler = ExceptionHandler {
-    case e: NoSuchElementException => complete(StatusCodes.NotFound -> e.getMessage)
     case e: IllegalArgumentException => complete(StatusCodes.BadRequest -> e.getMessage)
   }
 

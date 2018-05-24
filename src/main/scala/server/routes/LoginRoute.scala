@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext
 
 class LoginRoute(implicit val executionContext: ExecutionContext, implicit val loginService: LoginService)
   extends JsonSupport with CorsSupport with LazyLogging {
-  def handleLoginPost(request: LoginRequest) = {
+  def handleLoginPost(request: LoginRequest): String = {
     val driverID = loginService.authenticate(request.username, request.password)
     if (driverID < 0) "Wrong username or password"
     else driverID.toString

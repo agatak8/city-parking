@@ -1,6 +1,6 @@
 package domain
 
-case class DriverType(name: String)
+final case class DriverType(name: String)
 
 object DriverTypes {
 
@@ -10,4 +10,4 @@ object DriverTypes {
 
 }
 
-case class Driver(id: Int, driverType: DriverType)
+final case class Driver(id: Int, driverType: DriverType)

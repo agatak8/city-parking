@@ -9,7 +9,7 @@ sealed trait Rate {
 
   // this will return the fare total for all the elapsedHours
   // that is, it will sum up the fares for all the hours
-  def getFare(driverType: DriverType, elapsedHours: Int) = {
+  def getFare(driverType: DriverType, elapsedHours: Int): BigDecimal = {
     val hourRange = List.range(0, elapsedHours + 1)
     val farePerHour: Int => BigDecimal = driverType match {
       case DriverTypes.Regular => getRegular

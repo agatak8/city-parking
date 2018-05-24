@@ -12,41 +12,36 @@ import scala.concurrent.ExecutionContext
 
 class ParkingRoute(implicit val executionContext: ExecutionContext, implicit val parkingService: ParkingService)
   extends JsonSupport with CorsSupport with LazyLogging {
-  def handleDriverGet(driverID: Int, complete: Driver => Unit) = {
-    val driver = parkingService.getDriver(driverID)
-    complete(driver)
-  }
+  def handleDriverGet(driverID: Int): Option[Driver] = parkingService.getDriver(driverID)
 
-  def handleMeterGet(driverID: Int, complete: Meter => Unit) = {
-    val meter = parkingService.getMeter(driverID)
-    complete(meter)
-  }
+  def handleMeterGet(driverID: Int): Option[Meter] = parkingService.getMeter(driverID)
 
-  def handleMeterPut(driverID: Int, request: MeterRequest) = request.action match {
-    case Actions.Start => parkingService.startMeter(driverID, request.currency)
-    case Actions.Stop => parkingService.stopMeter(driverID)
-    case _ => {
+  def handleMeterPut(driverID: Int, request: MeterRequest): String = request.action match {
+    case Actions.Start =>
+      if (parkingService.startMeter(driverID, request.currency)) "OK" else "Meter not found"
+
+    case Actions.Stop =>
+      if (parkingService.stopMeter(driverID)) "OK" else "Meter not found"
+
+    case _ =>
       logger.debug("Unknown action " + request.action + " specified in put request at /meter/" + driverID)
-      throw new IllegalArgumentException("Unknown action in request")
-    }
+      s"Unknown action ${request.action}"
   }
 
   val route = cors() {
     pathPrefix("driver" / IntNumber) {
       driverID =>
         get {
-          completeWith(instanceOf[Driver]) {
-            completer =>
-              handleDriverGet(driverID, completer)
+          complete {
+            handleDriverGet(driverID)
           }
         }
     } ~
       pathPrefix("meter" / IntNumber) {
         driverID =>
           get {
-            completeWith(instanceOf[Meter]) {
-              completer =>
-                handleMeterGet(driverID, completer)
+            complete {
+              handleMeterGet(driverID)
             }
           } ~
             (put | parameter('method ! "put")) {
@@ -54,7 +49,6 @@ class ParkingRoute(implicit val executionContext: ExecutionContext, implicit val
                 request =>
                   complete {
                     handleMeterPut(driverID, request)
-                    "OK"
                   }
               }
             }

@@ -2,7 +2,7 @@ package domain.requests
 
 import java.util.Currency
 
-case class Action(name: String)
+final case class Action(name: String)
 
 object Actions {
 
@@ -14,4 +14,4 @@ object Actions {
 
 // currency matters only in case action is "start"
 // this class represents a PUT request to start/stop a meter
-case class MeterRequest(action: Action, currency: Currency)
+final case class MeterRequest(action: Action, currency: Currency)

@@ -12,7 +12,7 @@ class LoginRouteTest extends FlatSpec with Matchers with ScalatestRouteTest with
       s"""
          | { "username": "$user",
          |   "password": "$pass"
-         |  }
+         | }
                   """.stripMargin
     HttpEntity(ContentTypes.`application/json`, entity)
   }

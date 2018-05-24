@@ -10,12 +10,12 @@ import com.typesafe.scalalogging.LazyLogging
 import server.routes.{LoginRoute, ParkingRoute}
 import service._
 
-trait Config {
+sealed trait Config {
   val host: String
   val port: Int
 }
 
-case class InlineConfig(host: String, port: Int) extends Config
+final case class InlineConfig(host: String, port: Int) extends Config
 
 object FileConfig extends Config {
   val conf = ConfigFactory.load()
