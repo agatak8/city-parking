@@ -17,12 +17,12 @@ object MockDatabase extends Database with LazyLogging {
     ("jane", User("jane", "jane123", 1)),
     ("jamie", User("jamie", "jj11", 2)))
 
-  def getDriver(id: Int) = {
+  def getDriver(id: Int): Option[Driver] = {
     if(id >= 0 && id < drivers.length) Some(drivers(id))
     else None
   }
 
-  def getMeter(driverID: Int) = {
+  def getMeter(driverID: Int): Option[Meter] = {
     if(driverID >= 0 && driverID < drivers.length) Some(meters(driverID))
     else None
   }
@@ -31,7 +31,7 @@ object MockDatabase extends Database with LazyLogging {
     meters(meter.driverID) = meter
   }
 
-  def getUser(username: String) = {
+  def getUser(username: String): Option[User] = {
     if(users.contains(username)) Some(users(username))
     else None
   }

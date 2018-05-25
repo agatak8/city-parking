@@ -20,7 +20,7 @@ class ParkingRouteTest extends FlatSpec with Matchers with ScalatestRouteTest wi
          | { "action": "$action",
          |   "currency": "$currency"
          | }
-                  """.stripMargin
+        """.stripMargin
     HttpEntity(ContentTypes.`application/json`, entity)
   }
 
